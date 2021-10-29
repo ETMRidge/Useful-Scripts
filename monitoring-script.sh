@@ -13,3 +13,7 @@ echo "$x" "is offline"
 
 fi
 done
+
+#To have this run every minute crontab -e and enter
+# MAILTO="mail.mail@mail.com"
+# * * * * * ./monitoring-script.sh
