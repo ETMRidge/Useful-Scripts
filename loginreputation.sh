@@ -1,7 +1,12 @@
 #!/bin/bash
 
-ip_list=( $( last | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" ) )
+ip_list=( $( last -5 | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" ) )
+rule_it_out_number=( $(grep -Ei '"riot": true,' output.txt | wc -l ) )
+rule_it_out_list=($(grep -B 5 '"riot": true,' output.txt | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" ) )
+potential_malicious_ip=( $( grep -B 5 '"abuseConfidenceScore":^(?:[1-9]|\d\d\d*)$' output.txt | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" ) )
+potential_mal_number=( $(grep -Ei '"abuseConfidenceScore":^(?:[1-9]|\d\d\d*)$' output.txt | wc -l ) )
 
+{
 for x in "${ip_list[@]}"; do
 echo "IP Address: "$x""
 curl -G https://api.abuseipdb.com/api/v2/check -s \
@@ -16,4 +21,17 @@ curl -s --request GET \
      --header 'Accept: application/json' \
      --header 'key: S8axYtuPmhme47Hl9IvyeWS67LDON0QPiuwhndmPul9Zo4c3Cq2itu9HdbZbSzHI' | grep -o -w -E -e '"riot": [a-zA-Z]+,' -e '"noise": [a-zA-Z]+,'
 echo ""
+done
+} | tee output.txt
+
+echo "Rule out the following $rule_it_out_number IP's:"
+
+for x in "${rule_it_out_list[@]}"; do
+echo "$x"
+done
+
+echo "The following $potential_mal_number IP's have an abuse score above 0 and should be investigated:"
+
+for x in "${potential_malicious_ip[@]}"; do
+echo "$x"
 done
