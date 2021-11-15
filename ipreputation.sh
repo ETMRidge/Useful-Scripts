@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ip_list=( $( cat filename | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | sort -u ) )  #Edit the command where last -5 is.  It will work on files using cat.
+ip_list=( $( cat /var/log/nginx/access.log | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | sort -u ) )  #Edit the command where last -5 is.  It will work on files using cat.
 
 {
 for x in "${ip_list[@]}"; do
@@ -20,11 +20,11 @@ echo ""
 done
 } | tee output.txt  #Taking all output from the above greps and putting it into output.txt
 
-rule_it_out_number=( $(grep -Ei '"riot": true,' output.txt | wc -l ) ) #Grepping for riot and counting how many can be ruled out.
-rule_it_out_list=($(grep -B 5 '"riot": true,' output.txt | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | sort -u ) ) #Gathering a list of RIOT IP's
+rule_it_out_number=( $( grep -Ei '"riot": true,' output.txt | wc -l ) ) #Grepping for riot and counting how many can be ruled out.
+rule_it_out_list=($( grep -B 5 '"riot": true,' output.txt | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | sort -u ) ) #Gathering a list of RIOT IP's
 potential_malicious_ip=( $( grep -E -B 5 '"abuseConfidenceScore":[1-9]+' output.txt | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | sort -u ) ) #Gathering a list of IP's with abuseipdb scores over >=1
 potential_mal_number=( $( grep -E '"abuseConfidenceScore":[1-9]+' output.txt | wc -l ) ) #Getting the number of IP's with abuseipdb scores over >=1
-totalip=( $(cat output.txt | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | wc -l) )
+totalip=( $( cat output.txt | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | wc -l ) )
 
 echo "Total number of IP's:"
 echo "$totalip"
