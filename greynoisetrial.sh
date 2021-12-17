@@ -16,7 +16,7 @@ curl -G https://api.abuseipdb.com/api/v2/check -s \
 curl --request GET \
      --url https://api.greynoise.io/v2/noise/context/"$x" \
      --header 'S8axYtuPmhme47Hl9IvyeWS67LDON0QPiuwhndmPul9Zo4c3Cq2itu9HdbZbSzHI'\
-     --header 'Accept: application/json' | grep -o -w -E -e '"riot": [a-zA-Z]+,' -e '"noise": [a-zA-Z]+,'
+     --header 'Accept: application/json' | grep -o -w -E -e '"riot": [a-zA-Z]+,' -e '"noise": [a-zA-Z]+,' -e '"tags": [a-zA-Z]+,'
 echo ""
 done
 } | tee output.txt  #Taking all output from the above greps and putting it into output.txt
