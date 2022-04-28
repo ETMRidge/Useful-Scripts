@@ -1,6 +1,6 @@
 #!/bin/bash
 
-hash_list=( $(cat hash.txt) # This by default will go line by line as it's a list.
+hash_list=( $(cat hash.txt) )# This by default will go line by line as it's a list.
 
 for x in "${hash_list[@]}"; do
 echo "" # Space to make it readable.
