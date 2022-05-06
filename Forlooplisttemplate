@@ -1,0 +1,11 @@
+#!/bin/bash
+
+list=( $(cat list.txt) )# This by default will go line by line as it's a list.
+
+for x in "${list[@]}"; do
+echo "" # Space to make it readable.
+echo "$x"
+
+## Enter your commands above me.
+
+done
