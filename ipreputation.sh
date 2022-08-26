@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ip_list=( $( cat /var/log/nginx/access.log | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | sort -u ) )  #Edit the command where last -5 is.  It will work on files using cat.
+ip_list=( $( cat TEXTFILE.txt | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" | sort -u ) )  #Edit the command where last -5 is.  It will work on files using cat.
 
 {
 for x in "${ip_list[@]}"; do
