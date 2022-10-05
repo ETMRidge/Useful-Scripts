@@ -1,0 +1,10 @@
+{
+	"contentType": "text/csv",
+	"description": "Watchlist from CSV content",
+	"displayName": "Malicious IP watchlist",
+	"itemsSearchKey": "ipaddress",
+	"numberOfLinesToSkip": 1,
+	"provider": "ANS",
+	"rawContent": "ipaddress\r\"\"8.8.8.8\r\"\"1.1.1.1",
+	"source": "Github"
+}
